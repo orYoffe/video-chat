@@ -1,36 +1,40 @@
+var cookie = {
+  // Read cookie
+  get: function getCookie(name) {
+    var cookies = {};
+    var c = document.cookie.split("; ");
+    for (i = c.length - 1; i >= 0; i--) {
+      var C = c[i].split("=");
+      cookies[C[0]] = C[1];
+    }
+    return cookies[name] || null;
+  },
+
+  // create cookie
+  set: function createCookie(name, value, minutes) {
+    if (minutes) {
+      var date = new Date();
+      date.setTime(date.getTime() + minutes * 60 * 1000);
+      var expires = "; expires=" + date.toGMTString();
+    } else var expires = "";
+    document.cookie = name + "=" + value + expires + "; path=/";
+  },
+
+  remove: function deleteCookie(name) {
+    var date = new Date();
+    date.setTime(date.getTime() - 60 * 1000);
+    document.cookie = name + "=; expires=" + date.toGMTString() + "; path=/";
+  },
+};
+
+Element.prototype.remove = function () {
+  this.parentElement.removeChild(this);
+};
+
 // UI Manager for the Chat app
 function myjsapp(peerClient) {
   var chatHistory = {};
   var chatPanel = {};
-
-  var cookie = {
-    // Read cookie
-    get: function getCookie(name) {
-      var cookies = {};
-      var c = document.cookie.split("; ");
-      for (i = c.length - 1; i >= 0; i--) {
-        var C = c[i].split("=");
-        cookies[C[0]] = C[1];
-      }
-      return cookies[name] || null;
-    },
-
-    // create cookie
-    set: function createCookie(name, value, minutes) {
-      if (minutes) {
-        var date = new Date();
-        date.setTime(date.getTime() + minutes * 60 * 1000);
-        var expires = "; expires=" + date.toGMTString();
-      } else var expires = "";
-      document.cookie = name + "=" + value + expires + "; path=/";
-    },
-
-    remove: function deleteCookie(name) {
-      var date = new Date();
-      date.setTime(date.getTime() - 60 * 1000);
-      document.cookie = name + "=; expires=" + date.toGMTString() + "; path=/";
-    },
-  };
 
   function EventListeners() {
     $("#peer-id").tooltip();
@@ -57,10 +61,6 @@ function myjsapp(peerClient) {
       $("#inputPeerUserId").val(id);
       connectToPeer();
     });
-
-    Element.prototype.remove = function () {
-      this.parentElement.removeChild(this);
-    };
 
     $("#peer-id").click(function (event) {
       var textArea = document.createElement("textarea");
@@ -262,8 +262,8 @@ function myjsapp(peerClient) {
     },
     showVideoCall: function (options) {
       $("#videoCallPanel").modal("show");
-      if (options["video"]) $("#videoCallPanel .title").text("Video Call");
-      else $("#videoCallPanel .title").text("Voice Call");
+      //   if (options["video"]) $("#videoCallPanel .title").text("Video Call");
+      //   else $("#videoCallPanel .title").text("Voice Call");
     },
     showIncomingCall: function (peerId, options) {
       $("#callConfirmationModal").modal("show");
@@ -291,7 +291,9 @@ function myjsapp(peerClient) {
         video.src = URL.createObjectURL(stream);
       }
     },
-    showError: function (msg) {},
+    showError: function (error) {
+      console.log("------------error------------", error);
+    },
     updateOnlieUsers: function (users) {
       var list = $(".onlinepeers");
       list.empty();
