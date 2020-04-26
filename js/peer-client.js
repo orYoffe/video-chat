@@ -3,8 +3,8 @@ peerapp = (function () {
 
   console.log("Peer client started");
 
-  var PEER_SERVER = "or-peer.herokuapp.com";
-  // var PEER_SERVER = 'my-peer.herokuapp.com';
+  //   var PEER_SERVER = "or-peer.herokuapp.com";
+  var PEER_SERVER = "my-peer.herokuapp.com";
   var PORT = 443;
   var connectedPeers = {};
   var myPeerID = generateRandomID(4);
@@ -303,7 +303,7 @@ peerapp = (function () {
 
   function fetchOnlinePeers() {
     $.ajax(
-      "http://" + PEER_SERVER + "/peerjs/" + myPeerID + "/onlineusers"
+      "https://" + PEER_SERVER + "/peerjs/" + myPeerID + "/onlineusers"
     ).done(function (data) {
       // console.log(data);
       if (data.msg == "Success") {
