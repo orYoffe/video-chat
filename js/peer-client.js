@@ -28,7 +28,7 @@ peerapp = (function () {
       host: PEER_SERVER,
       port: PORT,
       path: "/",
-      secure: true,
+      //   secure: true,
     });
     peerCallbacks(peer);
   }
